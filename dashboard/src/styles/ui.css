@@ -1,0 +1,377 @@
+/* Shared look for dashboard pages. Everything is prefixed with ui- so the
+   older global rules in index.css (.row, .col, .data, .btn, hr, ...) don't
+   leak in. */
+
+:root {
+  --ui-blue: #4184f3;
+  --ui-blue-hover: #2f6fd9;
+  --ui-blue-soft: #eaf2fe;
+  --ui-green: #4caf50;
+  --ui-green-hover: #3d9a41;
+  --ui-green-soft: #e8f5e9;
+  --ui-red: #df4949;
+  --ui-red-soft: #fdecec;
+  --ui-orange: #ff5722;
+  --ui-orange-hover: #e64a19;
+  --ui-orange-soft: #fff0eb;
+  --ui-text: #3a3a3a;
+  --ui-muted: #9b9b9b;
+  --ui-border: #ececec;
+  --ui-soft: #f8f9fb;
+  --ui-bg: #f5f6f8;
+  --ui-radius: 8px;
+}
+
+.content {
+  background: var(--ui-bg);
+}
+
+/* page */
+
+.ui-page {
+  color: var(--ui-text);
+  max-width: 1100px;
+}
+
+.ui-page p,
+.ui-page h3,
+.ui-page h4 {
+  margin: 0;
+}
+
+.ui-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.ui-page-title {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.ui-page-title small {
+  font-size: 0.9rem;
+  color: var(--ui-muted);
+  margin-left: 6px;
+}
+
+.ui-page-subtitle {
+  margin-top: 4px !important;
+  font-size: 0.8rem;
+  color: var(--ui-muted);
+}
+
+.ui-section {
+  margin-top: 16px;
+}
+
+/* cards */
+
+.ui-card {
+  background: #fff;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  padding: 20px;
+}
+
+.ui-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ui-card-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.ui-link {
+  font-size: 0.8rem;
+  color: var(--ui-blue);
+  text-decoration: none;
+}
+
+.ui-link:hover {
+  text-decoration: underline;
+}
+
+.ui-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* stats */
+
+.ui-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ui-stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ui-muted);
+}
+
+.ui-stat-value {
+  margin-top: 8px !important;
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-stat-value.large {
+  font-size: 2.2rem;
+}
+
+.ui-stat-sub {
+  margin-top: 6px !important;
+  font-size: 0.8rem;
+  color: var(--ui-muted);
+}
+
+.ui-positive {
+  color: var(--ui-green) !important;
+}
+
+.ui-negative {
+  color: var(--ui-red) !important;
+}
+
+.ui-primary {
+  color: var(--ui-blue) !important;
+}
+
+/* label / value rows */
+
+.ui-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  font-size: 0.9rem;
+}
+
+.ui-row + .ui-row {
+  border-top: 1px dashed var(--ui-border);
+}
+
+.ui-row span:first-child {
+  color: #777;
+}
+
+.ui-row span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+/* tables */
+
+.ui-table-wrap {
+  background: #fff;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius);
+  overflow-x: auto;
+}
+
+.ui-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.ui-table th {
+  text-align: right;
+  padding: 12px 16px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ui-muted);
+  background: var(--ui-soft);
+  border-bottom: 1px solid var(--ui-border);
+  white-space: nowrap;
+}
+
+.ui-table td {
+  text-align: right;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f3f3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.ui-table th.left,
+.ui-table td.left {
+  text-align: left;
+}
+
+.ui-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ui-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.ui-table tbody tr:hover {
+  background: #fafbff;
+}
+
+.ui-symbol {
+  font-weight: 500;
+}
+
+/* badges */
+
+.ui-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.ui-badge-buy {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue);
+}
+
+.ui-badge-sell {
+  background: var(--ui-orange-soft);
+  color: var(--ui-orange);
+}
+
+.ui-badge-neutral {
+  background: #f1f1f1;
+  color: #666;
+}
+
+/* buttons */
+
+.ui-btn {
+  display: inline-block;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ui-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.ui-btn-blue {
+  background: var(--ui-blue);
+}
+
+.ui-btn-blue:hover:not(:disabled) {
+  background: var(--ui-blue-hover);
+}
+
+.ui-btn-green {
+  background: var(--ui-green);
+}
+
+.ui-btn-green:hover:not(:disabled) {
+  background: var(--ui-green-hover);
+}
+
+.ui-btn-orange {
+  background: var(--ui-orange);
+}
+
+.ui-btn-orange:hover:not(:disabled) {
+  background: var(--ui-orange-hover);
+}
+
+.ui-btn-ghost {
+  background: transparent;
+  color: var(--ui-text);
+  border: 1px solid var(--ui-border);
+}
+
+.ui-btn-ghost:hover:not(:disabled) {
+  background: var(--ui-soft);
+}
+
+/* segmented filter */
+
+.ui-segmented {
+  display: inline-flex;
+  background: #fff;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.ui-segmented button {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  color: #666;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ui-segmented button.active {
+  background: var(--ui-blue-soft);
+  color: var(--ui-blue);
+  font-weight: 500;
+}
+
+/* empty state */
+
+.ui-empty {
+  text-align: center;
+  padding: 48px 20px;
+}
+
+.ui-empty-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--ui-soft);
+  color: #b5b5b5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-empty-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.ui-empty-text {
+  margin-top: 6px !important;
+  font-size: 0.85rem;
+  color: var(--ui-muted);
+}
+
+.ui-empty .ui-btn {
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .ui-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

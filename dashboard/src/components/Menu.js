@@ -1,8 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
-import { Link } from "react-router-dom";
+import { Logout as LogoutIcon } from "@mui/icons-material";
 
 import { useAccount } from "../hooks/useAccount";
+
+const LINKS = [
+  { to: "/", label: "Dashboard", end: true },
+  { to: "/orders", label: "Orders" },
+  { to: "/holdings", label: "Holdings" },
+  { to: "/positions", label: "Positions" },
+  { to: "/funds", label: "Funds" },
+  { to: "/apps", label: "Apps" },
+];
 
 // "Yuvaraj M N" -> "YM"
 const initials = (name) =>
@@ -14,103 +24,62 @@ const initials = (name) =>
     .join("");
 
 const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [account] = useAccount();
   const displayName = account?.username || account?.email || "";
+  const profileRef = useRef(null);
 
-  const handleMenuClick = (index) => {
-    setSelectedMenu(index);
-  };
-
-  const handleProfileClick = (index) => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
-  };
-
-  const menuClass = "menu";
-  const activeMenuClass = "menu selected";
+  // close the dropdown when clicking anywhere else
+  useEffect(() => {
+    if (!isProfileDropdownOpen) return;
+    const handleClick = (e) => {
+      if (!profileRef.current?.contains(e.target)) setIsProfileDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isProfileDropdownOpen]);
 
   return (
-    <div className="menu-container">
-      <img src="logo.png" alt="logo" style={{ width: "50px" }} />
-      <div className="menus">
-        <ul>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/"
-              onClick={() => handleMenuClick(0)}
-            >
-              <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
-                Dashboard
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/orders"
-              onClick={() => handleMenuClick(1)}
-            >
-              <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
-                Orders
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/holdings"
-              onClick={() => handleMenuClick(2)}
-            >
-              <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
-                Holdings
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/positions"
-              onClick={() => handleMenuClick(3)}
-            >
-              <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
-                Positions
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/funds"
-              onClick={() => handleMenuClick(4)}
-            >
-              <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
-                Funds
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/apps"
-              onClick={() => handleMenuClick(6)}
-            >
-              <p className={selectedMenu === 6 ? activeMenuClass : menuClass}>
-                Apps
-              </p>
-            </Link>
-          </li>
-        </ul>
-        <hr />
-        <div className="profile" onClick={handleProfileClick}>
-          <div className="avatar">{initials(displayName) || "?"}</div>
-          <p className="username">{displayName}</p>
-        </div>
+    <div className="tb-menu">
+      <img src="logo.png" alt="logo" className="tb-logo" />
+
+      <nav className="tb-links">
+        {LINKS.map((link) => (
+          <NavLink
+            key={link.to}
+            to={link.to}
+            end={link.end}
+            className={({ isActive }) => `tb-link${isActive ? " active" : ""}`}
+          >
+            {link.label}
+          </NavLink>
+        ))}
+      </nav>
+
+      <div className="tb-profile" ref={profileRef}>
+        <button
+          className="tb-profile-button"
+          onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+        >
+          <span className="tb-avatar">{initials(displayName) || "?"}</span>
+          <span className="tb-username">{displayName}</span>
+        </button>
+
         {isProfileDropdownOpen && (
-          <div className="profile-dropdown">
-            <Link to="/logout" style={{ textDecoration: "none" }}>
-              <p className="menu">Logout</p>
+          <div className="tb-dropdown">
+            <div className="tb-dropdown-head">
+              <p className="tb-dropdown-name">{account?.username}</p>
+              <p className="tb-dropdown-email">{account?.email}</p>
+            </div>
+            <Link
+              to="/funds"
+              className="tb-dropdown-item"
+              onClick={() => setIsProfileDropdownOpen(false)}
+            >
+              Funds
+            </Link>
+            <Link to="/logout" className="tb-dropdown-item tb-logout">
+              <LogoutIcon fontSize="small" /> Logout
             </Link>
           </div>
         )}

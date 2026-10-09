@@ -4,29 +4,32 @@ import Menu from "./Menu";
 import { useQuotes } from "../hooks/useQuotes";
 import { formatINR } from "../utils/format";
 
+import "./TopBar.css";
+
 const INDICES = ["NIFTY 50", "SENSEX"];
 
 const TopBar = () => {
   const quotes = useQuotes(INDICES);
 
-  const renderIndex = (name, className) => {
-    const q = quotes[name];
-    return (
-      <div className={className}>
-        <p className="index">{name}</p>
-        <p className="index-points">{q ? formatINR(q.price) : "—"}</p>
-        <p className={`percent ${q?.isDown ? "down" : "up"}`}>
-          {q ? q.percent : ""}
-        </p>
-      </div>
-    );
-  };
-
   return (
-    <div className="topbar-container">
-      <div className="indices-container">
-        {renderIndex("NIFTY 50", "nifty")}
-        {renderIndex("SENSEX", "sensex")}
+    <div className="topbar-container tb">
+      <div className="tb-indices">
+        {INDICES.map((name) => {
+          const q = quotes[name];
+          return (
+            <div className="tb-index" key={name}>
+              <span className="tb-index-name">{name}</span>
+              <span className={`tb-index-price ${q?.isDown ? "tb-down" : "tb-up"}`}>
+                {q ? formatINR(q.price) : "—"}
+              </span>
+              {q && (
+                <span className={`tb-index-change ${q.isDown ? "tb-down" : "tb-up"}`}>
+                  {q.percent}
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <Menu />

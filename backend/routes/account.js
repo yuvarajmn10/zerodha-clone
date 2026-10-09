@@ -41,7 +41,7 @@ router.post("/funds/add", auth, async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user.id,
     { $inc: { cash: amount, totalAdded: amount } },
-    { new: true },
+    { returnDocument: "after" },
   );
   notify(req);
   res.json(accountJson(user));
@@ -55,7 +55,7 @@ router.post("/funds/withdraw", auth, async (req, res) => {
   const user = await User.findOneAndUpdate(
     { _id: req.user.id, cash: { $gte: amount } },
     { $inc: { cash: -amount, totalWithdrawn: amount } },
-    { new: true },
+    { returnDocument: "after" },
   );
   if (!user) return res.status(400).send("Insufficient funds");
 
@@ -81,7 +81,7 @@ router.post("/watchlist", auth, async (req, res) => {
   const user = await User.findOneAndUpdate(
     { _id: req.user.id, [`watchlist.${MAX_WATCHLIST - 1}`]: { $exists: false } },
     { $addToSet: { watchlist: name } },
-    { new: true },
+    { returnDocument: "after" },
   );
   if (!user) return res.status(400).send(`Watchlist is limited to ${MAX_WATCHLIST}`);
 
@@ -92,7 +92,7 @@ router.delete("/watchlist/:name", auth, async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user.id,
     { $pull: { watchlist: req.params.name } },
-    { new: true },
+    { returnDocument: "after" },
   );
   res.json(user ? user.watchlist : []);
 });

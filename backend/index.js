@@ -290,7 +290,7 @@ app.post("/newOrder", auth, async (req, res) => {
       const holding = await HoldingsModel.findOneAndUpdate(
         { user: userId, name, qty: { $gte: qty } },
         { $inc: { qty: -qty }, $set: { price } },
-        { new: true },
+        { returnDocument: "after" },
       );
       if (!holding) {
         return res.status(400).send("Insufficient stock");

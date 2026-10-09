@@ -19,19 +19,25 @@ ChartJS.register(
   Legend,
 );
 
-export const options = {
+const buildOptions = (title) => ({
   responsive: true,
   plugins: {
-    legend: {
-      position: "top",
-    },
+    legend: { display: false },
     title: {
-      display: true,
-      text: "Holdings",
+      display: Boolean(title),
+      text: title,
+      align: "start",
+      color: "#3a3a3a",
+      font: { size: 14, weight: "500" },
+      padding: { bottom: 16 },
     },
   },
-};
+  scales: {
+    x: { grid: { display: false } },
+    y: { grid: { color: "#f1f1f1" }, border: { display: false } },
+  },
+});
 
-export function VerticalGraph({ data }) {
-  return <Bar options={options} data={data} />;
+export function VerticalGraph({ data, title = "Holdings" }) {
+  return <Bar options={buildOptions(title)} data={data} />;
 }

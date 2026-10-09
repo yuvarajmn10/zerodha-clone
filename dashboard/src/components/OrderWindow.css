@@ -1,0 +1,254 @@
+.ow-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 20, 20, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.ow {
+  width: 100%;
+  max-width: 440px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  color: #3a3a3a;
+}
+
+.ow p,
+.ow h4 {
+  margin: 0;
+}
+
+/* header */
+
+.ow-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px 20px;
+  color: #fff;
+}
+
+.ow-buy {
+  background: #4184f3;
+}
+
+.ow-sell {
+  background: #ff5722;
+}
+
+.ow-header h4 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ow-exchange {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.ow-header p {
+  margin-top: 4px;
+  font-size: 0.85rem;
+  opacity: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+
+.ow-change {
+  opacity: 0.85;
+  margin-left: 4px;
+}
+
+.ow-close {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ow-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* body */
+
+.ow-body {
+  padding: 20px;
+}
+
+.ow-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ow-field > span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.ow-stepper,
+.ow-input {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  border: 1px solid #d6d6d6;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ow-stepper:focus-within,
+.ow-input:focus-within {
+  border-color: #4184f3;
+  box-shadow: 0 0 0 3px rgba(65, 132, 243, 0.15);
+}
+
+.ow-input.readonly {
+  background: #f8f9fb;
+  box-shadow: none;
+  border-color: #e6e6e6;
+}
+
+.ow-stepper button {
+  width: 36px;
+  height: 100%;
+  border: none;
+  background: #f8f9fb;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ow-stepper button:hover {
+  background: #eef1f6;
+}
+
+.ow-stepper input,
+.ow-input input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ow-input em {
+  font-style: normal;
+  color: #9b9b9b;
+  padding-left: 12px;
+}
+
+.ow-input input {
+  text-align: left;
+  padding: 0 8px;
+}
+
+/* hide number spinners; the stepper has its own buttons */
+.ow input[type="number"]::-webkit-outer-spin-button,
+.ow input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ow input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ow-summary {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: #f8f9fb;
+  border-radius: 6px;
+}
+
+.ow-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 3px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.ow-summary-row span:first-child {
+  color: #777;
+}
+
+.ow-error {
+  margin-top: 12px !important;
+  font-size: 0.8rem;
+  color: #df4949;
+}
+
+/* footer */
+
+.ow-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid #f1f1f1;
+}
+
+.ow-note {
+  font-size: 0.72rem;
+  color: #9b9b9b;
+}
+
+.ow-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* toast shown after an order */
+
+.ow-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 1100;
+  background: #2f2f2f;
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 12px 18px;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: ow-toast-in 0.2s ease;
+}
+
+@keyframes ow-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

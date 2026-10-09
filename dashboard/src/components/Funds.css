@@ -1,0 +1,348 @@
+/* scoped with funds- prefixes: index.css redefines .row/.col/.data
+   for other pages, which used to leak into this one */
+
+.funds-page {
+  --funds-blue: #4184f3;
+  --funds-blue-hover: #2f6fd9;
+  --funds-green: #4caf50;
+  --funds-green-hover: #3d9a41;
+  --funds-red: #df4949;
+  --funds-text: #3a3a3a;
+  --funds-muted: #9b9b9b;
+  --funds-border: #ececec;
+  --funds-soft: #f8f9fb;
+
+  color: var(--funds-text);
+  max-width: 1000px;
+}
+
+/* header */
+
+.funds-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.funds-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.funds-header p {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--funds-muted);
+}
+
+.funds-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.funds-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.funds-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.funds-btn-green {
+  background: var(--funds-green);
+}
+
+.funds-btn-green:hover:not(:disabled) {
+  background: var(--funds-green-hover);
+}
+
+.funds-btn-blue {
+  background: var(--funds-blue);
+}
+
+.funds-btn-blue:hover:not(:disabled) {
+  background: var(--funds-blue-hover);
+}
+
+.funds-btn-ghost {
+  background: transparent;
+  color: var(--funds-text);
+  border: 1px solid var(--funds-border);
+}
+
+.funds-btn-ghost:hover {
+  background: var(--funds-soft);
+}
+
+/* stat cards */
+
+.funds-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.funds-card {
+  background: #fff;
+  border: 1px solid var(--funds-border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.funds-stat-label {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--funds-muted);
+}
+
+.funds-stat-value {
+  margin: 8px 0 0;
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+.funds-stat-value.primary {
+  color: var(--funds-blue);
+}
+
+.funds-stat-sub {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--funds-muted);
+}
+
+.funds-profit {
+  color: var(--funds-green);
+}
+
+.funds-loss {
+  color: var(--funds-red);
+}
+
+/* cash vs invested bar */
+
+.funds-allocation {
+  margin-bottom: 16px;
+}
+
+.funds-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--funds-border);
+  margin: 12px 0 10px;
+}
+
+.funds-bar-cash {
+  background: var(--funds-blue);
+}
+
+.funds-bar-invested {
+  background: var(--funds-green);
+}
+
+.funds-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: var(--funds-muted);
+}
+
+.funds-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: var(--dot);
+}
+
+/* details */
+
+.funds-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.funds-section-title {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.funds-group + .funds-group {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--funds-border);
+}
+
+.funds-group-title {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--funds-muted);
+}
+
+.funds-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  font-size: 0.9rem;
+}
+
+.funds-row span:first-child {
+  color: #777;
+}
+
+.funds-row span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+.funds-row.strong span:last-child {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.funds-group.muted .funds-row span {
+  color: #b5b5b5;
+}
+
+.funds-commodity {
+  text-align: center;
+}
+
+.funds-commodity p {
+  margin: 8px 0 16px;
+  font-size: 0.85rem;
+  color: var(--funds-muted);
+}
+
+.funds-commodity a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* add / withdraw dialog */
+
+.funds-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.funds-dialog {
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.funds-dialog h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.funds-dialog .funds-stat-sub {
+  margin-bottom: 16px;
+}
+
+.funds-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d6d6d6;
+  border-radius: 4px;
+  padding: 0 12px;
+}
+
+.funds-input:focus-within {
+  border-color: var(--funds-blue);
+  box-shadow: 0 0 0 3px rgba(65, 132, 243, 0.15);
+}
+
+.funds-input span {
+  color: var(--funds-muted);
+  font-size: 1.1rem;
+}
+
+.funds-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 8px;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+}
+
+.funds-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.funds-chip {
+  border: 1px solid var(--funds-border);
+  background: var(--funds-soft);
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.funds-chip:hover {
+  border-color: var(--funds-blue);
+  color: var(--funds-blue);
+}
+
+.funds-error {
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  color: var(--funds-red);
+}
+
+.funds-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .funds-stats,
+  .funds-grid {
+    grid-template-columns: 1fr;
+  }
+}
