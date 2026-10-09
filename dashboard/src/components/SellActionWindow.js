@@ -1,8 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import API from "../api/axios";
 
 import GeneralContext from "./GeneralContext";
+import { useLiveList } from "../hooks/useLiveList";
+import { useQuotes } from "../hooks/useQuotes";
+import { formatINR } from "../utils/format";
 
 import "./BuyActionWindow.css"; // reuse same styling
 
@@ -11,30 +14,27 @@ const SellActionWindow = ({ uid }) => {
   const [stockPrice, setStockPrice] = useState(0.0);
 
   const generalContext = useContext(GeneralContext);
+  const holding = useLiveList("/allHoldings").find((h) => h.name === uid);
+
+  // orders fill at the live price; manual price only when there's no quote
+  const live = useQuotes([uid])[uid];
+  const price = live ? live.price : stockPrice;
 
   const handleSellClick = async () => {
     try {
-      await axios.post(
-        "http://localhost:3002/newOrder",
-        {
-          name: uid,
-          qty: stockQuantity,
-          price: stockPrice,
-          mode: "SELL", // only change
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        },
-      );
+      const res = await API.post("/newOrder", {
+        name: uid,
+        qty: stockQuantity,
+        price,
+        mode: "SELL",
+      });
 
-      alert("Stock Sold Successfully ");
+      alert(res.data);
 
       generalContext.closeSellWindow();
     } catch (err) {
       console.log(err);
-      alert("Sell Failed ");
+      alert(`Sell Failed: ${err.response?.data || err.message}`);
     }
   };
 
@@ -57,11 +57,12 @@ const SellActionWindow = ({ uid }) => {
           </fieldset>
 
           <fieldset>
-            <legend>Price</legend>
+            <legend>{live ? "Market price" : "Price"}</legend>
             <input
               type="number"
               step="0.05"
-              value={stockPrice}
+              readOnly={Boolean(live)}
+              value={price}
               onChange={(e) => setStockPrice(Number(e.target.value))}
             />
           </fieldset>
@@ -69,10 +70,13 @@ const SellActionWindow = ({ uid }) => {
       </div>
 
       <div className="buttons">
-        <span>Margin required ₹0</span>
+        <span>
+          You get ₹{formatINR(price * stockQuantity)} · Holding{" "}
+          {holding ? holding.qty : 0}
+        </span>
 
         <div>
-          <Link className="btn btn-red" onClick={handleSellClick}>
+          <Link to="" className="btn btn-red" onClick={handleSellClick}>
             Sell
           </Link>
 

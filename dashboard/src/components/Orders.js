@@ -2,22 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import API from "../api/axios";
+import { onPortfolioChange } from "../api/socket";
+import { formatINR } from "../utils/format";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    const fetchOrders = async () => {
+      try {
+        const res = await API.get("/orders");
+        setOrders(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  const fetchOrders = async () => {
-    try {
-      const res = await API.get("/orders");
-      setOrders(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    fetchOrders();
+    // new orders show up without a reload
+    return onPortfolioChange(fetchOrders);
+  }, []);
 
   return (
     <div className="orders">
@@ -41,15 +45,16 @@ const Orders = () => {
                 <th>Qty</th>
                 <th>Price</th>
                 <th>Mode</th>
+                <th>Time</th>
               </tr>
             </thead>
 
             <tbody>
-              {orders.map((order, index) => (
-                <tr key={index}>
+              {orders.map((order) => (
+                <tr key={order._id}>
                   <td>{order.name}</td>
                   <td>{order.qty}</td>
-                  <td>₹{order.price}</td>
+                  <td>₹{formatINR(order.price)}</td>
                   <td
                     style={{
                       color: order.mode === "BUY" ? "green" : "red",
@@ -57,6 +62,11 @@ const Orders = () => {
                     }}
                   >
                     {order.mode}
+                  </td>
+                  <td>
+                    {order.createdAt
+                      ? new Date(order.createdAt).toLocaleString("en-IN")
+                      : "-"}
                   </td>
                 </tr>
               ))}

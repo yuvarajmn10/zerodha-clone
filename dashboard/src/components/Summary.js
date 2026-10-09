@@ -1,10 +1,18 @@
 import React from "react";
 
+import { useAccount } from "../hooks/useAccount";
+import { useLiveList } from "../hooks/useLiveList";
+import { formatPercent, formatShort, holdingsTotals } from "../utils/format";
+
 const Summary = () => {
+  const [account] = useAccount();
+  const holdings = useLiveList("/allHoldings");
+  const { investment, current, pnl, pnlPercent } = holdingsTotals(holdings);
+
   return (
     <>
       <div className="username">
-        <h6>Hi, User!</h6>
+        <h6>Hi, {account?.username || "there"}!</h6>
         <hr className="divider" />
       </div>
 
@@ -15,17 +23,17 @@ const Summary = () => {
 
         <div className="data">
           <div className="first">
-            <h3>3.74k</h3>
+            <h3>{account ? formatShort(account.cash) : "—"}</h3>
             <p>Margin available</p>
           </div>
           <hr />
 
           <div className="second">
             <p>
-              Margins used <span>0</span>{" "}
+              Invested <span>{formatShort(investment)}</span>{" "}
             </p>
             <p>
-              Opening balance <span>3.74k</span>{" "}
+              Total added <span>{account ? formatShort(account.totalAdded) : "—"}</span>{" "}
             </p>
           </div>
         </div>
@@ -34,13 +42,13 @@ const Summary = () => {
 
       <div className="section">
         <span>
-          <p>Holdings (13)</p>
+          <p>Holdings ({holdings.length})</p>
         </span>
 
         <div className="data">
           <div className="first">
-            <h3 className="profit">
-              1.55k <small>+5.20%</small>{" "}
+            <h3 className={pnl >= 0 ? "profit" : "loss"}>
+              {formatShort(pnl)} <small>{formatPercent(pnlPercent)}</small>{" "}
             </h3>
             <p>P&L</p>
           </div>
@@ -48,10 +56,10 @@ const Summary = () => {
 
           <div className="second">
             <p>
-              Current Value <span>31.43k</span>{" "}
+              Current Value <span>{formatShort(current)}</span>{" "}
             </p>
             <p>
-              Investment <span>29.88k</span>{" "}
+              Investment <span>{formatShort(investment)}</span>{" "}
             </p>
           </div>
         </div>

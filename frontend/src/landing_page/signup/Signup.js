@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3002";
+
 function Signup() {
   const [data, setData] = useState({
     username: "",
@@ -11,7 +13,7 @@ function Signup() {
   const handleSignup = async () => {
     try {
       await axios.post(
-        "https://zerodha-backend-j6zw.onrender.com/api/auth/signup",
+        `${API_URL}/api/auth/signup`,
         data,
       );
       alert("Signup successful");
@@ -20,6 +22,7 @@ function Signup() {
       window.location.href = "/login";
     } catch (err) {
       console.log(err);
+      alert(`Signup failed: ${err.response?.data?.message || err.message}`);
     }
   };
 

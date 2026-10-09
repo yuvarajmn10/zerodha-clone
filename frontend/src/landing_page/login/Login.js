@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3002";
+const DASHBOARD_URL =
+  process.env.REACT_APP_DASHBOARD_URL || "http://localhost:3001";
+
 function Login() {
   const [data, setData] = useState({
     email: "",
@@ -10,7 +14,7 @@ function Login() {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "https://zerodha-backend-j6zw.onrender.com/api/auth/login",
+        `${API_URL}/api/auth/login`,
         data,
       );
 
@@ -20,10 +24,10 @@ function Login() {
       console.log("TOKEN SAVED:", localStorage.getItem("token"));
 
       // redirect to dashboard
-      window.location.href = `https://zerodha-clone-dashboard-fmx09ofy2-gurukiran615s-projects.vercel.app?token=${res.data.token}`;
+      window.location.href = `${DASHBOARD_URL}?token=${res.data.token}`;
     } catch (err) {
       console.log(err);
-      alert("Login failed");
+      alert(`Login failed: ${err.response?.data?.message || err.message}`);
     }
   };
 

@@ -1,22 +1,20 @@
 const jwt = require("jsonwebtoken");
 
+const JWT_SECRET = process.env.JWT_SECRET || "SECRET_KEY";
+
 module.exports = (req, res, next) => {
   const header = req.headers.authorization;
-
-  console.log("HEADER:", header); //  debug
 
   if (!header) {
     return res.status(401).json({ message: "No token" });
   }
 
-  // =extract token from "Bearer <token>"
-  const token = header.split(" ")[1];
+  // extract token from "Bearer <token>" (also accept a bare token)
+  const token = header.startsWith("Bearer ") ? header.slice(7) : header;
 
   try {
-    const decoded = jwt.verify(token, "SECRET_KEY");
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
-
-    console.log("USER:", decoded); //  debug
 
     next();
   } catch (err) {

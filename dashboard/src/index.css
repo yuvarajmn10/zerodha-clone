@@ -543,6 +543,11 @@ hr {
   color: rgb(72, 194, 55);
 }
 
+.data .first .loss,
+.data .first .loss small {
+  color: rgb(223, 73, 73);
+}
+
 .data hr {
   border-left: 0.6px solid rgb(243, 242, 242);
   height: 70px;
